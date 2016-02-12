@@ -7,32 +7,18 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="net.alexcarol.bicingoracle.MainActivity">
+    tools:context="net.alexcarol.bicingoracle.StationInfo">
 
-    <TimePicker
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/timePicker"
-        android:layout_centerVertical="true"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Lorem Ipsum"
+        android:id="@+id/data"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/predict"
-        android:id="@+id/predict"
-        android:layout_below="@+id/timePicker" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/stationId"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:text="1" />
-
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
