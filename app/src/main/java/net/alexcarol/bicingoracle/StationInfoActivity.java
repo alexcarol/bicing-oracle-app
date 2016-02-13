@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class StationInfo extends AppCompatActivity {
+public class StationInfoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,9 +15,12 @@ public class StationInfo extends AppCompatActivity {
         setContentView(R.layout.activity_station_info);
 
 
-        String stationId = this.getIntent().getStringExtra("stationId");
+        Intent intent = this.getIntent();
+        String stationId = intent.getStringExtra("stationId");
+        int hour= intent.getIntExtra("hour", -2);
+        int minute = intent.getIntExtra("minute", -3);
 
         TextView textView = (TextView) findViewById(R.id.data);
-        textView.setText("Id: " + stationId +"\nBicis: 1\nLlocs lliures: 3\n");
+        textView.setText("Id: " + stationId +"\nBicis: 1\nLlocs lliures: 3\nHora: " + hour + ":" + minute);
     }
 }
