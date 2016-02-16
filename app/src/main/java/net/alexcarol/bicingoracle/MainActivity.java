@@ -21,6 +21,10 @@ public class MainActivity extends AppCompatActivity {
         Button predictButton = (Button) findViewById(R.id.predict);
         final TextView textView = (TextView) findViewById(R.id.stationId);
         final MainActivity m = this;
+
+        /**
+         * TODO
+         */
         predictButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
