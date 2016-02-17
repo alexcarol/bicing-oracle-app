@@ -31,7 +31,7 @@ public class Start extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        startActivity(new Intent(t, ChooseLocationActivity.class));
                     }
                 }
         );
