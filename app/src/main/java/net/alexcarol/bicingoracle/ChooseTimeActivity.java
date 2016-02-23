@@ -21,6 +21,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -29,6 +31,9 @@ import android.widget.Toast;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChooseTimeActivity extends AppCompatActivity {
 
@@ -175,6 +180,28 @@ public class ChooseTimeActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_choose_time, container, false);
+            prepareTimePicker(rootView);
+            prepareDatePicker(rootView);
+
+            return rootView;
+        }
+
+        private void prepareDatePicker(View rootView) {
+            Spinner spinner = (Spinner) rootView.findViewById(R.id.day_chooser);
+            List<String> categories = new ArrayList<String>();
+            categories.add("Avui");
+            categories.add("Demà");
+            categories.add("Demà passat");
+            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(
+                getActivity(),
+                android.R.layout.simple_spinner_item,
+                categories
+            );
+            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(dataAdapter);
+        }
+
+        private void prepareTimePicker(View rootView) {
             rootView.findViewById(R.id.time_picker).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -196,9 +223,6 @@ public class ChooseTimeActivity extends AppCompatActivity {
                     timePickerDialog.show();
                 }
             });
-
-
-            return rootView;
         }
     }
 

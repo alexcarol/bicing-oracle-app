@@ -22,4 +22,13 @@
         android:layout_toRightOf="@+id/section_label"
         android:text="Enter your time here..." />
 
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/day_chooser"
+        android:layout_below="@+id/section_label"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:spinnerMode="dropdown" />
+
 </RelativeLayout>
