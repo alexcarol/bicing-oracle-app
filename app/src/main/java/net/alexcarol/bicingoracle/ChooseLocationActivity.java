@@ -47,7 +47,10 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-                startActivity(new Intent(thisActivity, ChooseTimeActivity.class));
+                final Intent intent = new Intent(thisActivity, ChooseTimeActivity.class);
+                intent.putExtra("latLng", latLng);
+
+                startActivity(intent);
             }
         });
     }

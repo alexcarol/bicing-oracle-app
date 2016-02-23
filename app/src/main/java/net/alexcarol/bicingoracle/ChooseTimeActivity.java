@@ -2,6 +2,7 @@ package net.alexcarol.bicingoracle;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -31,6 +32,7 @@ import android.widget.Toast;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -182,6 +184,11 @@ public class ChooseTimeActivity extends AppCompatActivity {
             View rootView = inflater.inflate(R.layout.fragment_choose_time, container, false);
             prepareTimePicker(rootView);
             prepareDatePicker(rootView);
+
+            final Intent intent = getActivity().getIntent();
+            LatLng chosenPosition = (LatLng) intent.getParcelableExtra("latLng");
+            Toast.makeText(getActivity(), "this is my Toast message!!! position: " + chosenPosition.toString(),
+                    Toast.LENGTH_LONG).show();
 
             return rootView;
         }
