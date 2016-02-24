@@ -12,7 +12,8 @@
         android:id="@+id/section_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:text="Time:" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -22,13 +23,22 @@
         android:layout_toRightOf="@+id/section_label"
         android:text="Enter your time here..." />
 
-    <Spinner
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/day_chooser"
+        android:text="Enter your date here..."
+        android:id="@+id/date_chooser"
+        android:layout_below="@+id/time_picker"
+        android:layout_toRightOf="@+id/section_label"
+        android:layout_toEndOf="@+id/section_label" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date:"
         android:layout_below="@+id/section_label"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:spinnerMode="dropdown" />
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

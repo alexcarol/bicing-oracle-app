@@ -1,7 +1,7 @@
 package net.alexcarol.bicingoracle;
 
+import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
@@ -22,9 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.TextClock;
+import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -33,9 +31,6 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.model.LatLng;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ChooseTimeActivity extends AppCompatActivity {
 
@@ -194,18 +189,28 @@ public class ChooseTimeActivity extends AppCompatActivity {
         }
 
         private void prepareDatePicker(View rootView) {
-            Spinner spinner = (Spinner) rootView.findViewById(R.id.day_chooser);
-            List<String> categories = new ArrayList<String>();
-            categories.add("Avui");
-            categories.add("Demà");
-            categories.add("Demà passat");
-            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(
-                getActivity(),
-                android.R.layout.simple_spinner_item,
-                categories
-            );
-            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinner.setAdapter(dataAdapter);
+            rootView.findViewById(R.id.date_chooser).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final TextView textClock = (TextView) v;
+                    final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                            textClock.setText("" + year + "-" + monthOfYear + "-" + dayOfMonth);
+                        }
+                    };
+
+                    final DatePickerDialog datePickerDialog = new DatePickerDialog(
+                            getContext(),
+                            onDateSetListener,
+                            2012,
+                            5,
+                            23
+                    );
+
+                    datePickerDialog.show();
+                }
+            });
         }
 
         private void prepareTimePicker(View rootView) {
