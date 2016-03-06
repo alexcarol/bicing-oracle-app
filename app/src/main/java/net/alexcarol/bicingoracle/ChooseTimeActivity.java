@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
@@ -180,23 +181,59 @@ public class ChooseTimeActivity extends AppCompatActivity {
             prepareTimePicker(rootView);
             prepareDatePicker(rootView);
 
+            final PlaceholderFragment f = this;
+            rootView.findViewById(R.id.predict_button).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final FragmentActivity previousActivity = getActivity();
+
+                    final Intent intent = new Intent(previousActivity, PredictionInfoActivity.class);
+                    intent.putExtras(previousActivity.getIntent().getExtras());
+                    intent.putExtra("year", f.year);
+                    intent.putExtra("month", f.month);
+                    intent.putExtra("day", f.dayOfMonth);
+                    intent.putExtra("hour", f.hour);
+                    intent.putExtra("minute", f.minute);
+
+                    startActivity(intent);
+                }
+            });
+
             final Intent intent = getActivity().getIntent();
             LatLng chosenPosition = (LatLng) intent.getParcelableExtra("latLng");
-            Toast.makeText(getActivity(), "this is my Toast message!!! position: " + chosenPosition.toString(),
-                    Toast.LENGTH_LONG).show();
+
+            String message;
+            if (chosenPosition != null) {
+                message = "position: " + chosenPosition.toString();
+            } else {
+                message = "No lat and longitude provided";
+            }
+
+            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+
 
             return rootView;
         }
 
+        private int year;
+        private int month;
+        private int dayOfMonth;
+
         private void prepareDatePicker(View rootView) {
+            final PlaceholderFragment f = this;
+
             rootView.findViewById(R.id.date_chooser).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     final TextView textClock = (TextView) v;
+
                     final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                             textClock.setText("" + year + "-" + monthOfYear + "-" + dayOfMonth);
+                            f.year = year;
+                            f.month = monthOfYear;
+                            f.dayOfMonth = dayOfMonth;
                         }
                     };
 
@@ -213,7 +250,12 @@ public class ChooseTimeActivity extends AppCompatActivity {
             });
         }
 
+        private int hour;
+        private int minute;
+
         private void prepareTimePicker(View rootView) {
+            final PlaceholderFragment f = this;
+
             rootView.findViewById(R.id.time_picker).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -222,6 +264,8 @@ public class ChooseTimeActivity extends AppCompatActivity {
                         @Override
                         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                             textClock.setText("" + hourOfDay + ":" + minute);
+                            f.hour = hour;
+                            f.minute = minute;
                         }
                     };
                     final TimePickerDialog timePickerDialog = new TimePickerDialog(
