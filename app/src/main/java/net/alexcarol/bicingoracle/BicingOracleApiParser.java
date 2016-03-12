@@ -1,15 +1,22 @@
 package net.alexcarol.bicingoracle;
 
 import android.support.annotation.NonNull;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-class BicingOracleApi {
-    public StationState[] getBicingData(long timestamp, LatLng position) {
-        String requestResult = getFakeApiResult();
+class BicingOracleApiParser {
+    @NonNull
+    public static StationState[] parseStationStates(String requestResult) {
         try {
             JSONObject jsonObject = new JSONObject(requestResult);
             JSONArray stations = jsonObject.getJSONArray("stations");
@@ -31,7 +38,7 @@ class BicingOracleApi {
 
             return stationStates;
         } catch (JSONException e) {
-            ExceptionLogger.getInstance().log("BicingOracleApi", "Error parsing json", e);
+            ExceptionLogger.getInstance().log("BicingOracleApiParser", "Error parsing json", e);
 
             return new StationState[]{};
         }
