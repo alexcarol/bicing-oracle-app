@@ -4,16 +4,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
-
-import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.SimpleTimeZone;
-import java.util.TimeZone;
 
 public class PredictionInfoActivity extends AppCompatActivity {
 
@@ -59,16 +51,3 @@ public class PredictionInfoActivity extends AppCompatActivity {
     }
 }
 
-class StationState {
-    public String address;
-    public int freeslots;
-    public int bikes;
-    public LatLng latLng;
-
-    public StationState(String Address, int freeslots, int bikes, LatLng latLng) {
-        address = Address;
-        this.freeslots = freeslots;
-        this.bikes = bikes;
-        this.latLng = latLng;
-    }
-}
