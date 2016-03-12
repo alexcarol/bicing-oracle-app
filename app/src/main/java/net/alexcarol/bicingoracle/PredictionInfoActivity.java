@@ -8,6 +8,13 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.SimpleTimeZone;
+import java.util.TimeZone;
+
 public class PredictionInfoActivity extends AppCompatActivity {
 
     @Override
@@ -45,15 +52,10 @@ public class PredictionInfoActivity extends AppCompatActivity {
 
         final TextView t = (TextView) findViewById(R.id.activity_prediction_info_text_view);
         t.setText(output);
-
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     private StationState[] getBicingData(int year, int month, int day, int hour, int minute, LatLng chosenPosition) {
-        return new StationState[]{
-                new StationState("Address 1", 1, 5, new LatLng(12, 13)),
-                new StationState("Address 2", 2, 3, new LatLng(12, 13)),
-        };
+        return (new BicingOracleApi()).getBicingData(year, month, day, hour, minute, chosenPosition);
     }
 }
 
