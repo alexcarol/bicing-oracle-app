@@ -7,6 +7,11 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.SimpleTimeZone;
+
 public class PredictionInfoActivity extends AppCompatActivity {
 
     @Override
@@ -47,7 +52,14 @@ public class PredictionInfoActivity extends AppCompatActivity {
     }
 
     private StationState[] getBicingData(int year, int month, int day, int hour, int minute, LatLng chosenPosition) {
-        return (new BicingOracleApi()).getBicingData(year, month, day, hour, minute, chosenPosition);
+        final SimpleTimeZone timezone = new SimpleTimeZone(1, "Europe/Madrid");
+        Calendar c = new GregorianCalendar(timezone);
+        c.set(year, month, day, hour, minute);
+
+        final Date dateTime = c.getTime();
+        long timestamp = dateTime.getTime() / 1000;
+
+        return (new BicingOracleApi()).getBicingData(timestamp, chosenPosition);
     }
 }
 
