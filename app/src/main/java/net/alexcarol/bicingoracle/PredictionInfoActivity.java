@@ -64,7 +64,7 @@ public class PredictionInfoActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(String response) {
                     final StationState[] states = BicingOracleApiParser.parseStationStates(response);
-                    String output = "";
+                    String output = "Result: \n";
                     for (StationState s:states) {
                         output += "Address: " + s.address +
                                 "\nBikes Available: " + s.bikes +
