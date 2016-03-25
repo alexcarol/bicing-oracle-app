@@ -194,7 +194,7 @@ public class ChooseTimeActivity extends AppCompatActivity {
             });
 
             final Intent intent = getActivity().getIntent();
-            LatLng chosenPosition = (LatLng) intent.getParcelableExtra("latLng");
+            LatLng chosenPosition = intent.getParcelableExtra("latLng");
 
             String message;
             if (chosenPosition != null) {
