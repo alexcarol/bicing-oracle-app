@@ -3,7 +3,7 @@ package net.alexcarol.bicingoracle;
 import android.util.Log;
 
 public class ExceptionLogger {
-    private static ExceptionLogger ourInstance = new ExceptionLogger();
+    private static final ExceptionLogger ourInstance = new ExceptionLogger();
 
     public static ExceptionLogger getInstance() {
         return ourInstance;

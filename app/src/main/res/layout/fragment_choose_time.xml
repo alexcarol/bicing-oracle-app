@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/time_picker"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/section_label"
+        android:layout_toEndOf="@+id/section_label"
         android:text="Enter your time here..." />
 
     <TextView

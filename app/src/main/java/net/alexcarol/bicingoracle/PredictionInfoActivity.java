@@ -13,7 +13,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
@@ -29,7 +28,7 @@ public class PredictionInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_prediction_info);
 
         final Intent intent = getIntent();
-        LatLng chosenPosition = (LatLng) intent.getParcelableExtra("latLng");
+        LatLng chosenPosition = intent.getParcelableExtra("latLng");
         int year, month, day, hour, minute;
         year = intent.getIntExtra("year", -2);
         month = intent.getIntExtra("month", -2);

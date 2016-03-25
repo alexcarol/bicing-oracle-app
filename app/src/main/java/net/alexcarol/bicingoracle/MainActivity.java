@@ -36,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
                     hour = timePicker.getHour();
                     minute = timePicker.getMinute();
                 } else {
-                    hour = timePicker.getCurrentHour();
-                    minute = timePicker.getCurrentMinute();
+                    hour = timePicker.getHour();
+                    minute = timePicker.getMinute();
                 }
 
                 intent.putExtra("hour", hour);
