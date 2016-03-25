@@ -37,14 +37,6 @@ public class PredictionInfoActivity extends AppCompatActivity {
         hour = intent.getIntExtra("hour", -2);
         minute = intent.getIntExtra("minute", -2);
 
-
-        String message;
-        if (chosenPosition != null) {
-            message = "position: " + chosenPosition.toString();
-        } else {
-            message = "No lat and longitude provided";
-        }
-
         fillThing(year, month, day, hour, minute, chosenPosition);
 
     }
