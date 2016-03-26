@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -65,7 +66,8 @@ public class PredictionInfoActivity extends AppCompatActivity {
                     }
 
                     final TextView t = (TextView) findViewById(R.id.activity_prediction_info_text_view);
-                    t.setText(output);                    }
+                    t.setText(output);
+                }
             },
             new Response.ErrorListener() {
                 @Override
@@ -73,7 +75,11 @@ public class PredictionInfoActivity extends AppCompatActivity {
                     final TextView t = (TextView) findViewById(R.id.activity_prediction_info_text_view);
 
                     // TODO change it on the actual release, users should never see something like this -> also, on Error retry instead
-                    t.setText("Problem getting bicing data : " + error.toString());
+                    Toast.makeText(
+                            PredictionInfoActivity.this,
+                            "Problem getting bicing data : " + error.toString(),
+                            Toast.LENGTH_SHORT
+                    ).show();
                 }
             }
         );
