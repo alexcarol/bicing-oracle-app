@@ -26,6 +26,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -178,10 +180,41 @@ public class ChooseTimeActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     final FragmentActivity previousActivity = getActivity();
+                    long timestamp = TimeUtils.getTimestamp(f.year, f.month, f.dayOfMonth, f.hour, f.minute);
+
+                    Response.Listener<String> responseListener = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            final StationPrediction[] predictions = BicingOracleApiParser.parseStationStates(response);
+
+                            final Intent intent = new Intent(previousActivity, PredictionInfoActivity.class);
+                            intent.putExtra("stationPredictions", predictions);
+                            startActivity(intent);
+                        }
+                    };
+                    Response.ErrorListener errorListener = new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            // TODO change it on the actual release, users should never see something like this -> also, on Error retry instead
+                            Toast.makeText(
+                                    previousActivity,
+                                    "Problem getting bicing data : " + error.toString(),
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                        }
+                    };
+
+                    LatLng chosenPosition = previousActivity.getIntent().getParcelableExtra("latLng");
+                    BicingOracleApi.bicingOracleApiRequest(
+                            timestamp,
+                            chosenPosition,
+                            responseListener,
+                            errorListener,
+                            previousActivity
+                    );
 
                     final Intent intent = new Intent(previousActivity, PredictionInfoActivity.class);
                     intent.putExtras(previousActivity.getIntent().getExtras());
-                    long timestamp = TimeUtils.getTimestamp(f.year, f.month, f.dayOfMonth, f.hour, f.minute);
                     intent.putExtra("timestamp", timestamp);
 
                     startActivity(intent);

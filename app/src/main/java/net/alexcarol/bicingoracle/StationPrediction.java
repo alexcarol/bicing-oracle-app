@@ -5,35 +5,35 @@ import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.LatLng;
 
-class StationState implements Parcelable {
+class StationPrediction implements Parcelable {
     public final String address;
     public final int freeslots;
     public final int bikes;
     public final LatLng latLng;
 
-    public StationState(String Address, int freeslots, int bikes, LatLng latLng) {
+    public StationPrediction(String Address, int freeslots, int bikes, LatLng latLng) {
         address = Address;
         this.freeslots = freeslots;
         this.bikes = bikes;
         this.latLng = latLng;
     }
 
-    protected StationState(Parcel in) {
+    protected StationPrediction(Parcel in) {
         address = in.readString();
         freeslots = in.readInt();
         bikes = in.readInt();
         latLng = in.readParcelable(LatLng.class.getClassLoader());
     }
 
-    public static final Creator<StationState> CREATOR = new Creator<StationState>() {
+    public static final Creator<StationPrediction> CREATOR = new Creator<StationPrediction>() {
         @Override
-        public StationState createFromParcel(Parcel in) {
-            return new StationState(in);
+        public StationPrediction createFromParcel(Parcel in) {
+            return new StationPrediction(in);
         }
 
         @Override
-        public StationState[] newArray(int size) {
-            return new StationState[size];
+        public StationPrediction[] newArray(int size) {
+            return new StationPrediction[size];
         }
     };
 

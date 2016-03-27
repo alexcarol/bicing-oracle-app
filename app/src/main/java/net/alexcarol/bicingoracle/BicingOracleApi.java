@@ -11,13 +11,9 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Properties;
-import java.util.SimpleTimeZone;
 
-public class BicingOracleApi {
+class BicingOracleApi {
     public static void bicingOracleApiRequest(
             long timestamp,
             LatLng position,

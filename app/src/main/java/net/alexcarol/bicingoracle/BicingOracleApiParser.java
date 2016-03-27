@@ -10,18 +10,18 @@ import org.json.JSONObject;
 
 class BicingOracleApiParser {
     @NonNull
-    public static StationState[] parseStationStates(String requestResult) {
+    public static StationPrediction[] parseStationStates(String requestResult) {
         try {
             JSONObject jsonObject = new JSONObject(requestResult);
             JSONArray stations = jsonObject.getJSONArray("stations");
 
             int length = stations.length();
-            StationState[] stationStates = new StationState[length];
+            StationPrediction[] stationPredictions = new StationPrediction[length];
 
             for (int i = 0; i < length; ++i) {
                 JSONObject jsonStationState = stations.getJSONObject(i);
 
-                stationStates[i] = new StationState(
+                stationPredictions[i] = new StationPrediction(
                     jsonStationState.getString("address"),
                     jsonStationState.getInt("slots"),
                     jsonStationState.getInt("bikes"),
@@ -30,11 +30,11 @@ class BicingOracleApiParser {
 
             }
 
-            return stationStates;
+            return stationPredictions;
         } catch (JSONException e) {
             ExceptionLogger.getInstance().log("BicingOracleApiParser", "Error parsing json", e);
 
-            return new StationState[]{};
+            return new StationPrediction[]{};
         }
     }
 
