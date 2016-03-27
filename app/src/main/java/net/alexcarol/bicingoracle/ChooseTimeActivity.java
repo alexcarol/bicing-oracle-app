@@ -7,8 +7,6 @@ import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -183,11 +181,8 @@ public class ChooseTimeActivity extends AppCompatActivity {
 
                     final Intent intent = new Intent(previousActivity, PredictionInfoActivity.class);
                     intent.putExtras(previousActivity.getIntent().getExtras());
-                    intent.putExtra("year", f.year);
-                    intent.putExtra("month", f.month);
-                    intent.putExtra("day", f.dayOfMonth);
-                    intent.putExtra("hour", f.hour);
-                    intent.putExtra("minute", f.minute);
+                    long timestamp = TimeUtils.getTimestamp(f.year, f.month, f.dayOfMonth, f.hour, f.minute);
+                    intent.putExtra("timestamp", timestamp);
 
                     startActivity(intent);
                 }
