@@ -187,7 +187,7 @@ public class ChooseTimeActivity extends AppCompatActivity {
                         public void onResponse(String response) {
                             final StationPrediction[] predictions = BicingOracleApiParser.parseStationStates(response);
 
-                            final Intent intent = new Intent(previousActivity, PredictionInfoActivity.class);
+                            final Intent intent = new Intent(previousActivity, MapPredictionInfoActivity.class);
                             intent.putExtra("stationPredictions", predictions);
                             startActivity(intent);
                         }
@@ -212,12 +212,6 @@ public class ChooseTimeActivity extends AppCompatActivity {
                             errorListener,
                             previousActivity
                     );
-
-                    final Intent intent = new Intent(previousActivity, PredictionInfoActivity.class);
-                    intent.putExtras(previousActivity.getIntent().getExtras());
-                    intent.putExtra("timestamp", timestamp);
-
-                    startActivity(intent);
                 }
             });
 

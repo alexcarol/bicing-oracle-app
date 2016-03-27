@@ -4,4 +4,5 @@
     <string name="title_activity_choose_location">Map</string>
     <string name="title_activity_choose_time">ChooseTimeActivity</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_map_prediction_info">Map</string>
 </resources>

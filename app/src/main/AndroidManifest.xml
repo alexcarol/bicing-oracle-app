@@ -62,6 +62,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="net.alexcarol.bicingoracle.ChooseTimeActivity" />
         </activity>
+        <activity
+            android:name=".MapPredictionInfoActivity"
+            android:label="@string/title_activity_map_prediction_info">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.alexcarol.bicingoracle.ChooseTimeActivity" />
+        </activity>
     </application>
 
 </manifest>
