@@ -12,7 +12,12 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Start">
+        <activity
+            android:name=".ChooseLocationActivity"
+            android:label="@string/title_activity_choose_location">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.alexcarol.bicingoracle.Start" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,7 +25,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".StationInfoActivity" />
-        <activity android:name=".MainActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -33,13 +37,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".ChooseLocationActivity"
-            android:label="@string/title_activity_choose_location">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="net.alexcarol.bicingoracle.Start" />
-        </activity>
+
         <activity
             android:name=".ChooseTimeActivity"
             android:label="@string/title_activity_choose_time"
