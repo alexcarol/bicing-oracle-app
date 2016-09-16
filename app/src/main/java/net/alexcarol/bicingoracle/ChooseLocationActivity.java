@@ -2,6 +2,7 @@ package net.alexcarol.bicingoracle;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -10,6 +11,9 @@ import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.DatePicker;
+import android.widget.TextView;
 
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -25,6 +29,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class ChooseLocationActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private int year;
+    private int month;
+    private int dayOfMonth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +43,7 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
         mapFragment.getMapAsync(this);
     }
 
-
-        @Override
+    @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
@@ -49,15 +55,34 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
 
         enableCurrentLocation();
 
-        final Activity thisActivity = this;
+        final ChooseLocationActivity thisActivity = this;
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
                 final Intent intent = new Intent(thisActivity, ChooseTimeActivity.class);
                 intent.putExtra("latLng", latLng);
 
-                startActivity(intent);
+                final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        System.out.print("" + year + "-" + monthOfYear + "-" + dayOfMonth);
+                        thisActivity.year = year;
+                        thisActivity.month = monthOfYear;
+                        thisActivity.dayOfMonth = dayOfMonth;
+                    }
+                };
+
+                final DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        ChooseLocationActivity.this,
+                        onDateSetListener,
+                        2012,
+                        5,
+                        23
+                );
+                datePickerDialog.show();
             }
+
+
         });
     }
 
@@ -80,4 +105,6 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
         LatLng l = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(l, 16));
     }
+
+
 }
