@@ -47,11 +47,7 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng barcelona = new LatLng(41.387148, 2.170122);
 
-        // TODO zoom depending on the stations
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(barcelona, 12));
 
         enableCurrentLocation();
 
@@ -65,7 +61,7 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
                 final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        System.out.print("" + year + "-" + monthOfYear + "-" + dayOfMonth);
+                        System.out.print("date:" + year + "-" + monthOfYear + "-" + dayOfMonth);
                         thisActivity.year = year;
                         thisActivity.month = monthOfYear;
                         thisActivity.dayOfMonth = dayOfMonth;
@@ -81,14 +77,15 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
                 );
                 datePickerDialog.show();
             }
-
-
         });
     }
 
     private void enableCurrentLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
             ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            defaultCentering();
+
+
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -104,6 +101,12 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
         Location location =  mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         LatLng l = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(l, 16));
+    }
+
+    private void defaultCentering() {
+        // Plaça Catalunya
+        LatLng barcelona = new LatLng(41.387148, 2.170122);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(barcelona, 12));
     }
 
 
