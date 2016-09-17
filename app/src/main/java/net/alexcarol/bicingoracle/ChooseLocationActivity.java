@@ -3,6 +3,7 @@ package net.alexcarol.bicingoracle;
 import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -14,7 +15,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderApi;
@@ -26,12 +31,18 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.DateFormat;
+import java.util.Calendar;
+
 public class ChooseLocationActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private LatLng latLng;
     private int year;
     private int month;
     private int dayOfMonth;
+    private int hourOfDay;
+    private int minute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,33 +62,101 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
 
         enableCurrentLocation();
 
-        final ChooseLocationActivity thisActivity = this;
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-                final Intent intent = new Intent(thisActivity, ChooseTimeActivity.class);
-                intent.putExtra("latLng", latLng);
+                ChooseLocationActivity.this.latLng = latLng;
 
-                final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        System.out.print("date:" + year + "-" + monthOfYear + "-" + dayOfMonth);
-                        thisActivity.year = year;
-                        thisActivity.month = monthOfYear;
-                        thisActivity.dayOfMonth = dayOfMonth;
-                    }
-                };
-
-                final DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        ChooseLocationActivity.this,
-                        onDateSetListener,
-                        2012,
-                        5,
-                        23
-                );
-                datePickerDialog.show();
+                showDatePicker();
             }
         });
+    }
+
+    private void showDatePicker() {
+        final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                System.out.print("date:" + year + "-" + monthOfYear + "-" + dayOfMonth);
+                ChooseLocationActivity.this.year = year;
+                ChooseLocationActivity.this.month = monthOfYear;
+                ChooseLocationActivity.this.dayOfMonth = dayOfMonth;
+
+                showTimePicker();
+            }
+        };
+
+        final Calendar c = Calendar.getInstance();
+
+        final DatePickerDialog datePickerDialog = new DatePickerDialog(
+                ChooseLocationActivity.this,
+                onDateSetListener,
+                c.get(Calendar.YEAR),
+                c.get(Calendar.MONTH),
+                c.get(Calendar.DAY_OF_MONTH)
+        );
+        datePickerDialog.show();
+    }
+
+    private void showTimePicker() {
+        final TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                System.out.print("time:" + hourOfDay + ":" + minute);
+                ChooseLocationActivity.this.hourOfDay = hourOfDay;
+                ChooseLocationActivity.this.minute = minute;
+
+                Toast.makeText(
+                        ChooseLocationActivity.this,
+                        "Realitzant la predicció...",
+                        Toast.LENGTH_SHORT
+                ).show();
+
+                predict();
+            }
+        };
+
+        final Calendar c = Calendar.getInstance();
+
+        final TimePickerDialog timePickerDialog = new TimePickerDialog(
+                ChooseLocationActivity.this,
+                onTimeSetListener,
+                c.get(Calendar.HOUR_OF_DAY),
+                c.get(Calendar.MINUTE),
+                true
+        );
+        timePickerDialog.show();
+    }
+
+    private void predict() {
+        long timestamp = TimeUtils.getTimestamp(year, month, dayOfMonth, hourOfDay, minute);
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                final StationPrediction[] predictions = BicingOracleApiParser.parseStationStates(response);
+
+                final Intent intent = new Intent(ChooseLocationActivity.this, MapPredictionInfoActivity.class);
+                intent.putExtra("stationPredictions", predictions);
+                startActivity(intent);
+            }
+        };
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // TODO change it on the actual release, users should never see something like this -> also, on Error retry instead
+                Toast.makeText(
+                        ChooseLocationActivity.this,
+                        "Problem getting bicing data : " + error.toString(),
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+        };
+        BicingOracleApi.bicingOracleApiRequest(
+                timestamp,
+                latLng,
+                responseListener,
+                errorListener,
+                ChooseLocationActivity.this
+        );
     }
 
     private void enableCurrentLocation() {
