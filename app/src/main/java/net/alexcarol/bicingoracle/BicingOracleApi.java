@@ -23,6 +23,7 @@ class BicingOracleApi {
     ) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         String host = getHost(context);
+        System.out.println("Timestamp: " + timestamp + " lat " + position.latitude + " lon " + position.longitude);
         String url = "http://" + host + "/prediction?time="
                 + timestamp + "&lat=" + position.latitude + "&lon=" + position.longitude;
         StringRequest stringRequest = new StringRequest(
