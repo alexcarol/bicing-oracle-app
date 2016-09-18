@@ -6,22 +6,25 @@ import android.os.Parcelable;
 import com.google.android.gms.maps.model.LatLng;
 
 class StationPrediction implements Parcelable {
+    public final int stationID;
     public final String address;
-    public final int freeslots;
-    public final int bikes;
     public final LatLng latLng;
+    public final double bikeProbability;
+    public final boolean failure;
 
-    public StationPrediction(String Address, int freeslots, int bikes, LatLng latLng) {
-        address = Address;
-        this.freeslots = freeslots;
-        this.bikes = bikes;
+    public StationPrediction(int stationID, String address, double bikeProbability, boolean failure, LatLng latLng) {
+        this.stationID = stationID;
+        this.address = address;
+        this.bikeProbability = bikeProbability;
+        this.failure = failure;
         this.latLng = latLng;
     }
 
     protected StationPrediction(Parcel in) {
+        stationID = in.readInt();
         address = in.readString();
-        freeslots = in.readInt();
-        bikes = in.readInt();
+        bikeProbability  = in.readDouble();
+        failure = in.readByte() != 0;
         latLng = in.readParcelable(LatLng.class.getClassLoader());
     }
 
@@ -44,9 +47,10 @@ class StationPrediction implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(stationID);
         dest.writeString(address);
-        dest.writeInt(freeslots);
-        dest.writeInt(bikes);
+        dest.writeDouble(bikeProbability);
+        dest.writeByte((byte) (failure ? 1 : 0));
         dest.writeParcelable(latLng, flags);
     }
 }

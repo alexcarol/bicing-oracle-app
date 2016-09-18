@@ -22,9 +22,10 @@ class BicingOracleApiParser {
                 JSONObject jsonStationState = stations.getJSONObject(i);
 
                 stationPredictions[i] = new StationPrediction(
+                    jsonStationState.getInt("id"),
                     jsonStationState.getString("address"),
-                    jsonStationState.getInt("slots"),
-                    jsonStationState.getInt("bikes"),
+                    jsonStationState.getDouble("bike-probability"),
+                    jsonStationState.getBoolean("failure"),
                     new LatLng(jsonStationState.getDouble("lat"), jsonStationState.getDouble("lon"))
                 );
 

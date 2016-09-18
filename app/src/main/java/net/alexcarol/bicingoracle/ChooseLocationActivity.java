@@ -1,37 +1,27 @@
 package net.alexcarol.bicingoracle;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
-import android.view.View;
 import android.widget.DatePicker;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.FusedLocationProviderApi;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.text.DateFormat;
 import java.util.Calendar;
 
 public class ChooseLocationActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -57,8 +47,6 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-
 
         enableCurrentLocation();
 
@@ -120,7 +108,7 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
         final TimePickerDialog timePickerDialog = new TimePickerDialog(
                 ChooseLocationActivity.this,
                 onTimeSetListener,
-                c.get(Calendar.HOUR_OF_DAY),
+                c.get(Calendar.HOUR_OF_DAY) + 2,
                 c.get(Calendar.MINUTE),
                 true
         );
@@ -132,6 +120,7 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
         Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                System.out.print("prediction: " + response);
                 final StationPrediction[] predictions = BicingOracleApiParser.parseStationStates(response);
 
                 final Intent intent = new Intent(ChooseLocationActivity.this, MapPredictionInfoActivity.class);
@@ -180,6 +169,9 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
         Location location =  mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         LatLng l = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(l, 16));
+
+        // TODO remove, this is only in the meantime
+        defaultCentering();
     }
 
     private void defaultCentering() {

@@ -17,8 +17,7 @@ public class PredictionInfoActivity extends AppCompatActivity {
         for (Parcelable p : parcelablePredictions) {
             StationPrediction s = (StationPrediction) p;
             output += "Address: " + s.address +
-                    "\nBikes Available: " + s.bikes +
-                    "\nSlots Available: " + s.freeslots +
+                    "\nBike probability: " + s.bikeProbability +
                     "\nPosition: " + s.latLng.toString() +
                     "\n==================\n";
         }
