@@ -21,7 +21,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".StationInfoActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -34,15 +33,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".ChooseTimeActivity"
-            android:label="@string/title_activity_choose_time"
-            android:parentActivityName=".ChooseLocationActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="net.alexcarol.bicingoracle.ChooseLocationActivity" />
-        </activity>
         <!--
              ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -51,17 +41,12 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".PredictionInfoActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="net.alexcarol.bicingoracle.ChooseTimeActivity" />
-        </activity>
         <activity
             android:name=".MapPredictionInfoActivity"
             android:label="@string/title_activity_map_prediction_info">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="net.alexcarol.bicingoracle.ChooseTimeActivity" />
+                android:value="net.alexcarol.bicingoracle.ChooseLocationActivity" />
         </activity>
         <activity android:name=".HelpActivity"></activity>
     </application>

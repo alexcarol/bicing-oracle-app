@@ -9,7 +9,6 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -181,9 +180,6 @@ public class ChooseLocationActivity extends FragmentActivity implements OnMapRea
         Location location =  mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         LatLng l = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(l, 16));
-
-        // TODO remove, this is only in the meantime
-        defaultCentering();
     }
 
     private void defaultCentering() {
