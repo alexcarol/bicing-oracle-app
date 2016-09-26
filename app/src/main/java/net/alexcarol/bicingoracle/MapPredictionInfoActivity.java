@@ -28,22 +28,24 @@ public class MapPredictionInfoActivity extends FragmentActivity implements OnMap
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        GoogleMap mMap = googleMap;
-
         String output = "";
 
         final Parcelable[] parcelablePredictions = getIntent().getParcelableArrayExtra("stationPredictions");
-        LatLng lastLocation = new LatLng(41.387148, 2.170122);;
+        LatLng lastLocation = new LatLng(41.387148, 2.170122);
+
         for (Parcelable p : parcelablePredictions) {
             StationPrediction s = (StationPrediction) p;
             final BitmapDescriptor icon = getIcon(s.bikeProbability, s.failure);
-            mMap.addMarker(new MarkerOptions()
+            String text;
+            if (s.failure) {
+                text = "Probabilitat: desconeguda";
+            } else {
+                text = "Probabilitat: " + ((int) (s.bikeProbability * 100)) + "%";
+            }
+            googleMap.addMarker(new MarkerOptions()
                             .position(s.latLng)
                             .title(s.address)
-                            .snippet(
-                                    "Bike probability: " + s.bikeProbability +
-                                            "\naddress:" + s.address
-                            )
+                            .snippet(text)
                             .icon(icon)
             );
             lastLocation = s.latLng;
@@ -56,34 +58,23 @@ public class MapPredictionInfoActivity extends FragmentActivity implements OnMap
                 }
             }
         }
+        if (!output.equals("")) {
+            Toast.makeText(
+                    this,
+                    "Error per les estacions " + output + ", prova d'aquí una estona",
+                    Toast.LENGTH_SHORT
+            ).show();
+        }
 
-        Toast.makeText(
-                this,
-                "Failed prediction for stations : " + output,
-                Toast.LENGTH_SHORT
-        ).show();
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lastLocation, 15));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lastLocation, 15));
     }
 
     @NonNull
     private BitmapDescriptor getIcon(double bikeProbability, boolean failure) {
         if (failure) {
-            BitmapDescriptorFactory.defaultMarker(
-                    BitmapDescriptorFactory.HUE_RED
-            );
+            BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
         }
 
-        return BitmapDescriptorFactory.defaultMarker(
-                (float)(BitmapDescriptorFactory.HUE_AZURE * bikeProbability)
-        );
+        return BitmapDescriptorFactory.defaultMarker((float) (BitmapDescriptorFactory.HUE_AZURE * bikeProbability));
     }
-
-//    @NonNull
-//     private BitmapDescriptor getIcon(int bikes, int freeslots) {
-//
-//        return BitmapDescriptorFactory.defaultMarker(
-//                BitmapDescriptorFactory.HUE_AZURE * bikes/ (bikes + freeslots)
-//        );
-//    }
 }
